@@ -7,13 +7,16 @@ export default function Error({ error, reset }) {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        flexDirection: "column",
         height: "100vh",
+        gap: "2rem",
       }}
     >
       <h2
         style={{
-          color: "var(--white-color)",
-          fontSize: "3rem",
+          color: "var(--primary-color)",
+          fontSize: "2.8rem",
+          textTransform: "uppercase",
         }}
       >
         Something went wrong!
@@ -22,11 +25,13 @@ export default function Error({ error, reset }) {
         onClick={() => reset()}
         style={{
           all: "unset",
-          padding: "1rem",
-          color: "var(--white-color)",
-          fontSize: "3rem",
-          border: "1px solid var(--white-color)",
+          padding: "1rem 2rem",
+          color: "var(--black-color)",
+          fontSize: "1.5rem",
+          border: "1px solid var(--black-color)",
           borderRadius: "0.5rem",
+          backgroundColor: "var(--primary-color)",
+          cursor: "pointer",
         }}
       >
         Try again

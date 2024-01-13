@@ -1,11 +1,37 @@
+"use client";
 import React from "react";
 import classes from "@/styles/CreateNewJob.module.css";
 import JobForm from "@/components/JobForm";
 import Header from "@/components/Header";
+import useGetTask from "@/hooks/useGetTask";
+import useGetAllTasks from "@/hooks/useGetAllTasks";
 
 const Page = () => {
+  const { handleGetAllTasks } = useGetAllTasks();
+  const { handleGetTask } = useGetTask();
+
+  const handleGetAllTask = async () => {
+    try {
+      const tx = await handleGetAllTasks();
+    } catch (err) {
+      console.log("Error during task creating : ", err.message);
+      throw err;
+    }
+  };
+
+  const handleGetTaskbutton = async () => {
+    try {
+      const tx = await handleGetTask(1);
+    } catch (err) {
+      console.log("Error during task creating : ", err.message);
+      throw err;
+    }
+  };
+
   return (
     <>
+      {/* <button onClick={handleGetAllTask}>handleGetAllTask</button> */}
+      {/* <button onClick={handleGetTaskbutton}>handleGetTaskbutton</button> */}
       <Header />
       <div className={classes.container}>
         <div className={classes.box}>

@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 
 import classes from "@/styles/JobForm.module.css";
+import useCreateTask from "@/hooks/useCreateTask";
 
 const initialState = {
   title: "Selling Phone Website",
@@ -14,6 +15,7 @@ const initialState = {
 };
 
 const JobForm = () => {
+  const { handleCreateTask } = useCreateTask();
   const [formData, setFormData] = useState(initialState);
 
   const handleSubmit = async (e) => {
@@ -21,7 +23,9 @@ const JobForm = () => {
     setFormData(initialState);
     console.log(formData);
     try {
-      console.log("Task created successfully");
+      const response = await handleCreateTask(formData);
+      if (response) console.log("Task created successfully");
+      else console.log("Error during task creating");
     } catch (err) {
       console.log("Error during task creating : ", err.message);
       throw err;
@@ -44,6 +48,7 @@ const JobForm = () => {
               name="title"
               value={formData.title}
               onChange={handleChange}
+              placeholder="Enter the title of your task"
             />
           </label>
 
@@ -53,6 +58,7 @@ const JobForm = () => {
               name="description"
               value={formData.description}
               onChange={handleChange}
+              placeholder="Enter the description of your task"
             />
           </label>
 
@@ -63,6 +69,7 @@ const JobForm = () => {
               name="reward"
               value={formData.reward}
               onChange={handleChange}
+              placeholder="Enter the reward for your task in ETH"
             />
           </label>
 
@@ -73,6 +80,7 @@ const JobForm = () => {
               name="timeToComplete"
               value={formData.timeToComplete}
               onChange={handleChange}
+              placeholder="Enter the time to complete your task in days"
             />
           </label>
 
@@ -83,6 +91,7 @@ const JobForm = () => {
               name="majorTypeOfTask"
               value={formData.majorTypeOfTask}
               onChange={handleChange}
+              placeholder="Enter the major type of your task"
             />
           </label>
 
@@ -93,6 +102,7 @@ const JobForm = () => {
               name="minorTypeOfTask"
               value={formData.minorTypeOfTask}
               onChange={handleChange}
+              placeholder="Enter the minor type of your task"
             />
           </label>
 
@@ -103,6 +113,7 @@ const JobForm = () => {
               name="techStack"
               value={formData.techStack}
               onChange={handleChange}
+              placeholder="Enter the tech stack of your task"
             />
           </label>
 
