@@ -155,7 +155,6 @@ contract TaskHub {
         emit TaskDeleted(_id);
     }
 
-
     function getTask(
         uint _id
     )
@@ -434,5 +433,26 @@ contract TaskHub {
             );
         }
         return allUserAddress;
+    }
+
+    function getAllTaskByNinorTypeOfTask(
+        string memory _minorTypeOfTask
+    ) external view returns (Task[] memory) {
+        Task[] memory _tasks = new Task[](taskCount);
+        uint counter = 0;
+        for (uint i = 1; i <= taskCount; i++) {
+            if (
+                keccak256(abi.encodePacked(tasks[i].minorTypeOfTask())) ==
+                keccak256(abi.encodePacked(_minorTypeOfTask))
+            ) {
+                _tasks[counter] = tasks[i];
+                counter++;
+            }
+        }
+        Task[] memory _tasksByNinorTypeOfTask = new Task[](counter);
+        for (uint i = 0; i < counter; i++) {
+            _tasksByNinorTypeOfTask[i] = _tasks[i];
+        }
+        return _tasksByNinorTypeOfTask;
     }
 }

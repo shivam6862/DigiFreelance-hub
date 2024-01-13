@@ -57,3 +57,20 @@
 .container_form > button:hover {
   background-color: var(--btn-active-color);
 }
+.container_form > label > select {
+  all: unset;
+  width: 90%;
+  padding: var(--ft-350);
+  margin: 0.5rem 0rem 0.5rem 0rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: var(--ft-400);
+  cursor: pointer;
+  font-weight: 500;
+}
+.container_form > label > select > option {
+  padding: 1rem;
+  font-size: var(--ft-400);
+  cursor: pointer;
+  font-weight: 500;
+}

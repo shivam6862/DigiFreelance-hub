@@ -6,13 +6,31 @@ import useCreateTask from "@/hooks/useCreateTask";
 
 const initialState = {
   title: "Selling Phone Website",
-  description: "Create an e-commerce website for selling phones.",
+  description:
+    "Our e-commerce website specializes in offering a diverse range of cutting-edge smartphones, providing customers with a seamless online shopping experience. Explore our extensive catalog featuring the latest models from top brands, coupled with detailed product descriptions and user reviews for informed decision-making. Enjoy secure transactions, swift checkout, and reliable delivery services. Our user-friendly interface ensures effortless navigation, and responsive design caters to various devices. ",
   reward: 4,
   timeToComplete: 6,
   majorTypeOfTask: "Development",
-  minorTypeOfTask: "Website",
+  minorTypeOfTask: "website-making",
   techStack: "REACT, KAGGLE, NEXTJS, NODEJS, EXPRESSJS, MONGODB, HTML, CSS",
 };
+const options_majorTypeOfTask = [
+  { show: "Development", value: "development" },
+  { show: "Design", value: "design" },
+];
+
+const options_minorTypeOfTask = [
+  { show: "Website making", value: "website-making" },
+  { show: "Book Cover design", value: "book-cover-design" },
+  { show: "Letterhead design", value: "letterhead-design" },
+  { show: "Logo business card", value: "logo-business-card" },
+  { show: "Logo design", value: "logo-design" },
+  { show: "Mobile app design", value: "mobile-app-design" },
+  { show: "Packaging design", value: "packaging-design" },
+  { show: "Sticker design", value: "sticker-design" },
+  { show: "Tshirt design", value: "tshirt-design" },
+  { show: "Website design", value: "website-design" },
+];
 
 const JobForm = () => {
   const { handleCreateTask } = useCreateTask();
@@ -26,6 +44,7 @@ const JobForm = () => {
       const response = await handleCreateTask(formData);
       if (response) console.log("Task created successfully");
       else console.log("Error during task creating");
+      console.log("Task created successfully");
     } catch (err) {
       console.log("Error during task creating : ", err.message);
       throw err;
@@ -86,24 +105,34 @@ const JobForm = () => {
 
           <label>
             Major Type of Task:
-            <input
-              type="text"
+            <select
+              id="dropdown"
               name="majorTypeOfTask"
               value={formData.majorTypeOfTask}
               onChange={handleChange}
-              placeholder="Enter the major type of your task"
-            />
+            >
+              {options_majorTypeOfTask.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.show}
+                </option>
+              ))}
+            </select>
           </label>
 
           <label>
             Minor Type of Task:
-            <input
-              type="text"
+            <select
+              id="dropdown"
               name="minorTypeOfTask"
               value={formData.minorTypeOfTask}
               onChange={handleChange}
-              placeholder="Enter the minor type of your task"
-            />
+            >
+              {options_minorTypeOfTask.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.show}
+                </option>
+              ))}
+            </select>
           </label>
 
           <label>
