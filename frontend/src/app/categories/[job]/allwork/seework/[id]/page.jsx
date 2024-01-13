@@ -1,7 +1,11 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import classes from "@/styles/SeeWork.module.css";
 import EachWorkitem from "@/components/EachWorkitem";
+import useGetTask from "@/hooks/useGetTask";
+import useGetAllrequestForTaskByTask from "@/hooks/useGetAllrequestForTaskByTask";
+import { useMetamask } from "@/hooks/useMetamask";
 
 const MINORWORKS = {
   id: 1,
@@ -19,8 +23,43 @@ const MINORWORKS = {
 };
 
 const Page = ({ params }) => {
+  const {
+    dispatch,
+    state: { wallet },
+  } = useMetamask();
   const MINORWORK = params.job;
-  const IMAGEPATH = params.id;
+  const IMAGEPATH = params.id.split("_")[1];
+  const { isLoading, handleGetTask } = useGetTask();
+  const { handleGetAllrequestForTaskByTask } = useGetAllrequestForTaskByTask();
+  const [eachWorkitem, setEachWorkitem] = useState(MINORWORKS);
+  const [allRequestForThisTask, setAllRequestForThisTask] = useState([]);
+
+  useEffect(() => {
+    const getFunction = async () => {
+      const result = await handleGetTask(IMAGEPATH);
+      console.log(result);
+      setEachWorkitem(result);
+      const response = await handleGetAllrequestForTaskByTask(IMAGEPATH);
+      console.log(response);
+      setAllRequestForThisTask(response);
+    };
+    getFunction();
+  }, []);
+
+  if (isLoading)
+    return (
+      <>
+        <Header />
+        <div className={classes.contaier}>
+          <div className={classes.box}>
+            <h1>
+              {MINORWORK.replace(/-/g, " ")} -{IMAGEPATH}
+            </h1>
+            <h1>Loading...</h1>
+          </div>
+        </div>
+      </>
+    );
 
   return (
     <>
@@ -30,7 +69,46 @@ const Page = ({ params }) => {
           <h1>
             {MINORWORK.replace(/-/g, " ")} -{IMAGEPATH}
           </h1>
-          <EachWorkitem workitem={MINORWORKS} />
+          <EachWorkitem workitem={eachWorkitem} />
+          {eachWorkitem.creator.toUpperCase() == wallet.toUpperCase() ? (
+            <>
+              {allRequestForThisTask.length > 0 ? (
+                <>
+                  {allRequestForThisTask.map((request, index) => {
+                    return (
+                      <>
+                        <div className={classes.request_container} key={index}>
+                          <div className={classes.reques_container_box}>
+                            <h1>
+                              {index + 1}. User :<span>{request}</span>
+                            </h1>
+                          </div>
+                        </div>
+                      </>
+                    );
+                  })}
+                </>
+              ) : (
+                <>
+                  <div className={classes.request_container}>
+                    <div className={classes.reques_container_box}>
+                      <h1>No user Requested for this task yet!</h1>
+                    </div>
+                  </div>
+                </>
+              )}
+            </>
+          ) : (
+            <>
+              <div className={classes.request_container}>
+                <div className={classes.reques_container_box}>
+                  <h1>
+                    No user Requested for this task yet. Be the first one to do!
+                  </h1>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </>

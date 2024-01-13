@@ -4,7 +4,7 @@ import Image from "next/image";
 import classes from "@/styles/Profile/UserProfileInput.module.css";
 
 export default function ProfileIconUpload({ setFile }) {
-  const [icon, setIcon] = useState("/user.png");
+  const [icon, setIcon] = useState("/user-profile.jpg");
   function handleIconUpload(event) {
     const file = event.target.files[0];
     setFile(file);

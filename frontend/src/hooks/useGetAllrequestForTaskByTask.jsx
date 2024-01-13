@@ -29,7 +29,11 @@ const useGetAllrequestForTaskByTask = () => {
       );
       console.log(tx);
       setIsLoading(false);
-      return true;
+      console.log("all requested user :", tx);
+      var response = tx.split(",");
+      response = response.filter((item) => item != "");
+      console.log("all requested user :", response);
+      return response;
     } catch (err) {
       console.log("Error during task creating : ", err.message);
       NotificationHandler(

@@ -28,8 +28,40 @@ const useGetTask = () => {
         "Success"
       );
       console.log(tx);
+      var dummyData = {
+        id: 1,
+        title: "",
+        description: "",
+        reward: 0,
+        timeToComplete: 0,
+        majorTypeOfTask: "",
+        minorTypeOfTask: "",
+        techStack: "",
+        creator: "",
+        solver: "",
+        sender: "",
+        createdAt: 0,
+        isUserRequestForTask: false,
+      };
+      dummyData.id = tx[0][0].toNumber();
+      dummyData.reward = tx[0][1].toNumber();
+      dummyData.createdAt = tx[0][2].toNumber();
+      dummyData.timeToComplete = tx[0][3].toNumber();
+
+      dummyData.creator = tx[1][0];
+      dummyData.solver = tx[1][1];
+      dummyData.sender = tx[1][2];
+
+      dummyData.title = tx[2][0];
+      dummyData.description = tx[2][1];
+      dummyData.majorTypeOfTask = tx[2][2];
+      dummyData.minorTypeOfTask = tx[2][3];
+      dummyData.techStack = tx[2][4];
+
+      dummyData.isUserRequestForTask = tx[3];
+
       setIsLoading(false);
-      return true;
+      return dummyData;
     } catch (err) {
       console.log("Error during task creating : ", err.message);
       NotificationHandler(

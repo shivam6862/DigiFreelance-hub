@@ -94,7 +94,7 @@ const EachWorkitem = ({ workitem }) => {
             </div>
           </div>
           <div className={classes.button}>
-            {wallet === creator ? (
+            {workitem.creator.toUpperCase() == wallet.toUpperCase() ? (
               <button className={classes.button_creater} disabled={true}>
                 Creator
               </button>

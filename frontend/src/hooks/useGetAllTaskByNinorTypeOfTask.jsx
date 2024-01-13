@@ -9,10 +9,12 @@ const useGetAllTaskByNinorTypeOfTask = () => {
   const [isLoading, setIsLoading] = useState(false);
   const contractInstance = useContract();
 
-  const handleGetAllTaskByNinorTypeOfTask = async (_id) => {
+  const handleGetAllTaskByNinorTypeOfTask = async (_minorTypeOfTask) => {
     try {
       setIsLoading(true);
-      const tx = await contractInstance.getAllTaskByNinorTypeOfTask(_id);
+      const tx = await contractInstance.getAllTaskByNinorTypeOfTask(
+        _minorTypeOfTask
+      );
       if (tx == "First Connect To Wallet") {
         NotificationHandler(
           "DigiFreelance hub",
@@ -29,7 +31,15 @@ const useGetAllTaskByNinorTypeOfTask = () => {
       );
       console.log(tx);
       setIsLoading(false);
-      return true;
+      const tempArray = [];
+      if (tx[0].length === 0) return tempArray;
+      for (let i = 0; i < tx[0].length; i++) {
+        tempArray.push({
+          address: tx[0][i],
+          index: parseInt(tx[1][i]._hex, 16),
+        });
+      }
+      return tempArray;
     } catch (err) {
       console.log("Error during task creating : ", err.message);
       NotificationHandler(

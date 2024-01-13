@@ -437,7 +437,7 @@ contract TaskHub {
 
     function getAllTaskByNinorTypeOfTask(
         string memory _minorTypeOfTask
-    ) external view returns (Task[] memory) {
+    ) external view returns (Task[] memory, uint256[] memory) {
         Task[] memory _tasks = new Task[](taskCount);
         uint counter = 0;
         for (uint i = 1; i <= taskCount; i++) {
@@ -450,9 +450,11 @@ contract TaskHub {
             }
         }
         Task[] memory _tasksByNinorTypeOfTask = new Task[](counter);
+        uint256[] memory _tasksByNinorTypeOfTaskId = new uint256[](counter);
         for (uint i = 0; i < counter; i++) {
             _tasksByNinorTypeOfTask[i] = _tasks[i];
+            _tasksByNinorTypeOfTaskId[i] = _tasks[i].id();
         }
-        return _tasksByNinorTypeOfTask;
+        return (_tasksByNinorTypeOfTask, _tasksByNinorTypeOfTaskId);
     }
 }

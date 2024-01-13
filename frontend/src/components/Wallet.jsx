@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useListen } from "@/hooks/useListen";
 import { useMetamask } from "@/hooks/useMetamask";
 import { useNotification } from "@/hooks/useNotification";
+import { CgProfile } from "react-icons/cg";
 
 export default function Wallet() {
   const { NotificationHandler } = useNotification();
@@ -100,9 +101,22 @@ export default function Wallet() {
         )}
 
         {isConnected && (
-          <button onClick={handleDisconnect} className="wallet-btn">
-            Disconnect
-          </button>
+          <>
+            <button onClick={handleDisconnect} className="wallet-btn">
+              Disconnect
+            </button>
+            <div
+              style={{
+                position: "absolute",
+                top: "1.3rem",
+                right: "0rem",
+              }}
+            >
+              <Link href="/profile">
+                <CgProfile size={25} color="white" />
+              </Link>
+            </div>
+          </>
         )}
       </div>
     </div>
