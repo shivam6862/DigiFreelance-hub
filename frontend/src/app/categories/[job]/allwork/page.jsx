@@ -13,7 +13,8 @@ const Page = ({ params }) => {
   return (
     <>
       <Header />
-      <div className={classes.container}>
+      <div className={classes.cotainer}>
+        <h1>All available work</h1>
         <div className={classes.box}>
           {AllImagePAth.map((imagePath, index) => (
             <div className={classes.hover_effect}>

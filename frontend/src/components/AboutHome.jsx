@@ -13,7 +13,7 @@ const AboutHome = () => {
         <p>Take control of your project with DigiFreelance hub.</p>
         <p>Pay securely and confidently.</p>
         <Link href="/createNewJob">
-          <button>Learn More</button>
+          <button>Create Jobs</button>
         </Link>
       </div>
     </div>

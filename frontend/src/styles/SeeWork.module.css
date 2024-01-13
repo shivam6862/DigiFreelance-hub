@@ -1,0 +1,22 @@
+.cotainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding: 1rem;
+}
+.box > h1 {
+  padding: 0;
+  margin: 0;
+  font-size: var(--ft-800);
+  color: var(--primary-color);
+  font-weight: 600;
+  text-transform: uppercase;
+}

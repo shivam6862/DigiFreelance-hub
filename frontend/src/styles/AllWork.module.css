@@ -2,8 +2,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   min-height: 100vh;
+}
+.cotainer > h1 {
+  font-size: var(--ft-800);
+  font-weight: 700;
+  width: -webkit-fit-content;
+  text-align: center;
+  color: var(--primary-color);
+  padding-top: 1rem;
 }
 .box {
   display: flex;
