@@ -1,12 +1,12 @@
 const getSubmission = require("../controllers/getSubmission");
 
-module.exports = getReviewsRoutes = {
-  path: "/reviews/:id",
+module.exports = getSubmissionRoutes = {
+  path: "/submission/:projectAddress",
   method: "get",
   handler: async (req, res) => {
     try {
-      const { id } = req.params;
-      const response = await getSubmission(id);
+      const { projectAddress } = req.params;
+      const response = await getSubmission(projectAddress);
       return res.status(200).send({
         message: "Project Found!",
         response: response,

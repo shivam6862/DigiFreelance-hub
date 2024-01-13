@@ -277,10 +277,20 @@ contract TaskHub {
 
     function getAllTasks() external view returns (Task[] memory) {
         Task[] memory _tasks = new Task[](taskCount);
+
+        uint counter = 0;
         for (uint i = 1; i <= taskCount; i++) {
-            _tasks[i - 1] = tasks[i];
+            if (tasks[i].status() != Task.Status.Deleted) {
+                _tasks[i - 1] = tasks[i];
+                counter++;
+            }
         }
-        return _tasks;
+
+        Task[] memory _allTasks = new Task[](counter);
+        for (uint i = 0; i < counter; i++) {
+            _allTasks[i] = _tasks[i];
+        }
+        return _allTasks;
     }
 
     function getAllTasksByCreator(

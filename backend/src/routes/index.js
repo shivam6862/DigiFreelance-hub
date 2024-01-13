@@ -5,6 +5,7 @@ const insertSubmissionRoutes = require("./insertSubmissionRoutes");
 const insertReviewRoutes = require("./insertReviewsRoutes");
 const insertProfileRoutes = require("./insertProfileRoutes");
 const updateProfileRoutes = require("./updateProfileRoutes");
+const updateUpvoteandDownvoteRoutes = require("./updateUpvoteandDownvoteRoutes");
 
 module.exports = routes = [
   getProfileRoutes,
@@ -14,4 +15,5 @@ module.exports = routes = [
   insertReviewRoutes,
   insertProfileRoutes,
   updateProfileRoutes,
+  updateUpvoteandDownvoteRoutes,
 ];

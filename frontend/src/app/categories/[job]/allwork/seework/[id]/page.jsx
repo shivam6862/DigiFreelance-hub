@@ -8,6 +8,13 @@ import useGetAllrequestForTaskByTask from "@/hooks/useGetAllrequestForTaskByTask
 import { useMetamask } from "@/hooks/useMetamask";
 import ReviewsInput from "@/components/Reviews/ReviewInput";
 import ReviewsItem from "@/components/Reviews/ReviewItem";
+import { MdDelete } from "react-icons/md";
+import { TiTick } from "react-icons/ti";
+import useRejectForTaskByCreator from "@/hooks/useRejectForTaskByCreator";
+import useAcceptTaskForSolver from "@/hooks/useAcceptTaskForSolver";
+import useTransferRewardToSolver from "@/hooks/useTransferRewardToSolver";
+import { FaThumbsUp } from "react-icons/fa";
+import { FaThumbsDown } from "react-icons/fa";
 
 const MINORWORKS = {
   id: 1,
@@ -35,6 +42,10 @@ const Page = ({ params }) => {
   const { handleGetAllrequestForTaskByTask } = useGetAllrequestForTaskByTask();
   const [eachWorkitem, setEachWorkitem] = useState(MINORWORKS);
   const [allRequestForThisTask, setAllRequestForThisTask] = useState([]);
+
+  const { handleRejectForTaskByCreator } = useRejectForTaskByCreator();
+  const { handleAcceptTaskForSolver } = useAcceptTaskForSolver();
+  const { handleTransferRewardToSolver } = useTransferRewardToSolver();
 
   useEffect(() => {
     const getFunction = async () => {
@@ -76,6 +87,83 @@ const Page = ({ params }) => {
     setData((prev) => [...prev, data]);
   };
 
+  const handleDelete = async (user) => {
+    try {
+      const response = await handleRejectForTaskByCreator(IMAGEPATH, user);
+      console.log(response);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  const handleAccept = async (user) => {
+    try {
+      const response = await handleAcceptTaskForSolver(IMAGEPATH, user);
+      console.log(response);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  const [submissionUser, setSubmissionUser] = useState(null);
+  useEffect(() => {
+    const handleGetSubmission = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/submission/${IMAGEPATH}`,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const responsedata = await response.json();
+        setSubmissionUser(responsedata.response);
+        console.log(responsedata);
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+    if (wallet && IMAGEPATH) handleGetSubmission();
+  }, [wallet]);
+
+  const handleTransferRewardToSolverFun = async () => {
+    try {
+      const response = await handleTransferRewardToSolver(eachWorkitem.id);
+      console.log(response);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  const handleUpvoteandDownvote = async (id, type, current) => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/submission/${id}/${type}/${current}`,
+        {
+          method: "PUT",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const responsedata = await response.json();
+      console.log(responsedata);
+      const new_type = type + "s";
+      console.log(new_type);
+      if (responsedata.message == "Upvote and Downvote updated successfully!")
+        setSubmissionUser((prev) => ({
+          ...prev,
+          [new_type]: prev[new_type] + 1,
+        }));
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
   if (isLoading)
     return (
       <>
@@ -99,7 +187,10 @@ const Page = ({ params }) => {
           <h1>
             {MINORWORK.replace(/-/g, " ")} -{IMAGEPATH}
           </h1>
-          <EachWorkitem workitem={eachWorkitem} />
+          <EachWorkitem
+            workitem={eachWorkitem}
+            projectAddress={params.id.split("_")[1]}
+          />
           {eachWorkitem.creator.toUpperCase() == wallet.toUpperCase() ? (
             <>
               {allRequestForThisTask.length > 0 ? (
@@ -112,6 +203,26 @@ const Page = ({ params }) => {
                             <h1>
                               {index + 1}. User :<span>{request}</span>
                             </h1>
+                            <div
+                              style={{
+                                cursor: "pointer",
+                              }}
+                            >
+                              <MdDelete
+                                size={30}
+                                color="black"
+                                onClick={() => {
+                                  handleDelete(request);
+                                }}
+                              />
+                              <TiTick
+                                size={35}
+                                color="var(--primary-color)"
+                                onClick={() => {
+                                  handleAccept(request);
+                                }}
+                              />
+                            </div>
                           </div>
                         </div>
                       </>
@@ -151,6 +262,79 @@ const Page = ({ params }) => {
               jobId={params.id.split("_")[0]}
             />
           </div>
+          {eachWorkitem.creator.toUpperCase() == wallet.toUpperCase() &&
+            submissionUser != null && (
+              <div className={classes.user_submission}>
+                <div className={classes.box_submission}>
+                  <h1>Project Submission</h1>
+                  <p>Submission Id: {submissionUser.id}</p>
+                  <p>Creator Address: {submissionUser.createrAddress}</p>
+                  <p>Project Address: {submissionUser.projectAddress}</p>
+                  <p>Solver Address: {submissionUser.solverAddress}</p>
+                  <p>
+                    Submission Link:{" "}
+                    <a
+                      href={submissionUser.subbmissionLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {submissionUser.subbmissionLink}
+                    </a>
+                  </p>
+                  <p>Upvotes: {submissionUser.upvotes}</p>
+                  <p>Downvotes: {submissionUser.downvotes}</p>
+                  <p>Submission Date: {submissionUser.submissionDate}</p>
+                  <button onClick={handleTransferRewardToSolverFun}>
+                    Give Reward to user
+                  </button>
+                </div>
+              </div>
+            )}
+          {eachWorkitem.creator.toUpperCase() != wallet.toUpperCase() &&
+            submissionUser != null && (
+              <div className={classes.user_submission}>
+                <div className={classes.box_submission_voting}>
+                  <p>
+                    Submission Link:{" "}
+                    <a
+                      href={submissionUser.subbmissionLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {submissionUser.subbmissionLink}
+                    </a>
+                  </p>
+                  <p>
+                    Upvotes: {submissionUser.upvotes}{" "}
+                    <FaThumbsUp
+                      size={20}
+                      color="var(--light-black-color)"
+                      onClick={() => {
+                        handleUpvoteandDownvote(
+                          submissionUser.projectAddress,
+                          "upvote",
+                          submissionUser.upvotes
+                        );
+                      }}
+                    />
+                  </p>
+                  <p>
+                    Downvotes: {submissionUser.downvotes}
+                    <FaThumbsDown
+                      size={20}
+                      color="var(--light-black-color)"
+                      onClick={() => {
+                        handleUpvoteandDownvote(
+                          submissionUser.projectAddress,
+                          "downvote",
+                          submissionUser.downvotes
+                        );
+                      }}
+                    />
+                  </p>
+                </div>
+              </div>
+            )}
         </div>
       </div>
     </>

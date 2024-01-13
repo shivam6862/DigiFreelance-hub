@@ -1,12 +1,12 @@
 import { useNotification } from "./useNotification";
 
-const useReviews = () => {
+const useSubmissionLink = () => {
   const { NotificationHandler } = useNotification();
-  const Reviews = async (data, wallet, jobId) => {
+  const submissionLink = async (data) => {
     console.log(data);
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/reviews/${jobId}/${wallet}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/insertSubmission`,
         {
           method: "POST",
           headers: {
@@ -29,7 +29,7 @@ const useReviews = () => {
       return "false";
     }
   };
-  return { Reviews };
+  return { submissionLink };
 };
 
-export default useReviews;
+export default useSubmissionLink;

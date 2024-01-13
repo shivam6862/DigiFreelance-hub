@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import classes from "@/styles/EachWorkitem.module.css";
 import { MdOutlineMyLocation } from "react-icons/md";
 import { FaRegClock } from "react-icons/fa";
@@ -9,8 +9,19 @@ import { GiTakeMyMoney } from "react-icons/gi";
 import { MdOutlineWorkHistory } from "react-icons/md";
 import { FaFileContract } from "react-icons/fa";
 import { useMetamask } from "@/hooks/useMetamask";
+import useRequestForTaskToCreator from "@/hooks/useRequestForTaskToCreator";
+import useCompleteTask from "@/hooks/useCompleteTask";
+import useDeleteTask from "@/hooks/useDeleteTask";
+import { useRouter } from "next/navigation";
+import useSubmissionLink from "@/hooks/useSubmissionLink";
 
-const EachWorkitem = ({ workitem }) => {
+const EachWorkitem = ({ workitem, projectAddress }) => {
+  const router = useRouter();
+  const { handleCompleteTask } = useCompleteTask();
+  const { handleDeleteTask } = useDeleteTask();
+  const { handleRequestForTaskToCreator } = useRequestForTaskToCreator();
+  const { submissionLink } = useSubmissionLink();
+  const [link, setLink] = useState("");
   const {
     dispatch,
     state: { wallet },
@@ -27,13 +38,55 @@ const EachWorkitem = ({ workitem }) => {
     creator,
     createdAt,
     isUserRequestForTask,
+    solver,
+    id,
   } = workitem;
+  console.log(workitem);
   const date = new Date(createdAt * 1000);
   const techStackArray = techStack.split(",");
+
+  const onclickHandleRequestForTaskToCreator = async () => {
+    console.log(workitem.id);
+    const result = await handleRequestForTaskToCreator(id);
+    console.log(result);
+  };
+
+  const onclickHandleSubmitTaskToCreator = async () => {
+    const result = await handleCompleteTask(id);
+    console.log(result);
+    if (result) {
+      const data = {
+        createrAddress: creator,
+        projectAddress: projectAddress,
+        solverAddress: wallet,
+        subbmissionLink: link,
+      };
+      const result = await submissionLink(data);
+      console.log(result);
+    }
+  };
+
+  const handleDeleteTaskFromCreator = async () => {
+    const result = await handleDeleteTask(id);
+    console.log(result);
+    router.push(`/categories/${minorTypeOfTask}/allwork`);
+  };
 
   return (
     <div className={classes.container}>
       <div className={classes.box}>
+        <div className={classes.delete_project}>
+          {creator.toUpperCase() === wallet.toUpperCase() ? (
+            <button
+              className={classes.delete_project_button}
+              onClick={handleDeleteTaskFromCreator}
+            >
+              Delete Work
+            </button>
+          ) : (
+            <></>
+          )}
+        </div>
         <div className={classes.details}>
           <div className={classes.title}>
             <h1>{title}</h1>
@@ -64,7 +117,7 @@ const EachWorkitem = ({ workitem }) => {
             </div>
             <div className={classes.different_logo}>
               <GiTakeMyMoney />
-              <p>{reward}</p>
+              <p>{reward} ETH</p>
             </div>
             <div className={classes.different_logo}>
               <MdOutlineMyLocation />
@@ -94,14 +147,40 @@ const EachWorkitem = ({ workitem }) => {
             </div>
           </div>
           <div className={classes.button}>
-            {workitem.creator.toUpperCase() == wallet.toUpperCase() ? (
+            {creator.toUpperCase() == wallet.toUpperCase() ? (
               <button className={classes.button_creater} disabled={true}>
                 Creator
               </button>
             ) : isUserRequestForTask ? (
-              <button className={classes.button1}>Requested</button>
+              <>
+                {solver.toUpperCase() == wallet.toUpperCase() ? (
+                  <>
+                    <input
+                      type="text"
+                      value={link}
+                      onChange={(e) => setLink(e.target.value)}
+                      placeholder="Enter the link of your work"
+                    />
+                    <button
+                      className={classes.button1}
+                      onClick={() => {
+                        onclickHandleSubmitTaskToCreator();
+                      }}
+                    >
+                      Submit
+                    </button>
+                  </>
+                ) : (
+                  <button className={classes.button1}>Requested</button>
+                )}
+              </>
             ) : (
-              <button className={classes.button2}>Request</button>
+              <button
+                className={classes.button2}
+                onClick={onclickHandleRequestForTaskToCreator}
+              >
+                Request
+              </button>
             )}
           </div>
         </div>
