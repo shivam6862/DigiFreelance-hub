@@ -56,6 +56,32 @@
   color: var(--light-black-color);
   font-weight: 400;
 }
+.reviewsInput {
+  margin-top: 2rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  max-width: 900px;
+}
+.headingReview {
+  font-size: 2rem;
+  padding-bottom: 1rem;
+  padding-left: 1rem;
+  color: var(--dark-color);
+  font-weight: 600;
+}
+.box_reviews {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 1rem;
+}
 @media screen and (max-width: 1000px) {
   .request_container {
     width: -webkit-fill-available;

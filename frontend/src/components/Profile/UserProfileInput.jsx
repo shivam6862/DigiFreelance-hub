@@ -2,28 +2,85 @@
 import classes from "@/styles/Profile/UserProfileInput.module.css";
 import styles from "@/styles/Profile/Profile.module.css";
 import ProfileIconUpload from "@/components/Profile/ProfileIconUpload";
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+import { useMetamask } from "@/hooks/useMetamask";
+import { useNotification } from "@/hooks/useNotification";
+var new_wallet = "";
 const UserProfileInput = () => {
+  const { NotificationHandler } = useNotification();
+  const {
+    dispatch,
+    state: { wallet },
+  } = useMetamask();
+  new_wallet = wallet;
+
   const [file, setFile] = useState(null);
   const [values, setValues] = useState({
-    firstName: "Shivam",
-    secondName: "Kumar",
+    firstName: "John",
+    lastName: "dev",
     description: "We enjoyed this hackthon!",
   });
 
-  const { firstName, secondName, description } = values;
+  const { firstName, lastName, description } = values;
   const valueChangeHandler = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
   };
 
   const sendProfile = async () => {
-    const formData = new FormData();
-    formData.append("name", firstName + " " + secondName);
-    formData.append("description", description);
-    formData.append("file", file);
-    console.log(values);
+    const sendingData = {
+      firstName,
+      lastName: lastName,
+      description,
+      walletAddress: wallet,
+    };
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/update`,
+      {
+        method: "post",
+        body: JSON.stringify(sendingData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const resData = await response.json();
+    console.log(resData);
+    if (resData.message == "User Updated Sucessfully!") {
+      NotificationHandler(
+        "DigiFreelance hub",
+        "Profile Updated Successfully!",
+        "Success"
+      );
+    }
   };
+
+  useEffect(() => {
+    const getProfile = async () => {
+      const headers = new Headers({
+        "Content-Type": "application/json",
+      });
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/${new_wallet}`,
+        {
+          method: "get",
+          headers: headers,
+        }
+      );
+      const resData = await response.json();
+      console.log(resData);
+      if (resData.message == "User Found!") {
+        setValues({
+          firstName: resData.response[0].firstName,
+          lastName: resData.response[0].lastName,
+          description: resData.response[0].description,
+        });
+      }
+    };
+    setTimeout(() => {
+      getProfile();
+    }, 3000);
+  }, []);
 
   console.log(file);
   return (
@@ -50,8 +107,8 @@ const UserProfileInput = () => {
           <div className={styles.col}>
             <lable className={styles.label}>Second Name:</lable>
             <input
-              value={secondName}
-              onChange={valueChangeHandler("secondName")}
+              value={lastName}
+              onChange={valueChangeHandler("lastName")}
               placeholder="Second Name "
               className={styles["user-input"]}
             />

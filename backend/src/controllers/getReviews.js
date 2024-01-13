@@ -1,6 +1,6 @@
 const Reviews = require("../models/reviews");
 
-module.exports = getReviews = async ({ projectAddress }) => {
+module.exports = getReviews = async (projectAddress) => {
   try {
     const review = await Reviews.find({ projectAddress: projectAddress });
     const data = review.map((item) => {

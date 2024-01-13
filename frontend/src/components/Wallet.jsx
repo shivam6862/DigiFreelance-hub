@@ -50,6 +50,31 @@ export default function Wallet() {
         "You have successfully connected to your wallet",
         "Success"
       );
+
+      const createProfile = async () => {
+        const sendingData = {
+          firstName: "Jhon",
+          secondName: " Doe",
+          description: " I am a freelancer",
+          walletAddress: accounts[0],
+        };
+
+        const headers = new Headers({
+          "Content-Type": "application/json",
+        });
+
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/insertProfile`,
+          {
+            method: "post",
+            body: JSON.stringify(sendingData),
+            headers: headers,
+          }
+        );
+        const resData = await response.json();
+        console.log(resData);
+      };
+      createProfile();
     }
   };
 

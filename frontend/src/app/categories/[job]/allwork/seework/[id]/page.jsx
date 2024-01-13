@@ -6,6 +6,8 @@ import EachWorkitem from "@/components/EachWorkitem";
 import useGetTask from "@/hooks/useGetTask";
 import useGetAllrequestForTaskByTask from "@/hooks/useGetAllrequestForTaskByTask";
 import { useMetamask } from "@/hooks/useMetamask";
+import ReviewsInput from "@/components/Reviews/ReviewInput";
+import ReviewsItem from "@/components/Reviews/ReviewItem";
 
 const MINORWORKS = {
   id: 1,
@@ -45,6 +47,34 @@ const Page = ({ params }) => {
     };
     getFunction();
   }, []);
+
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    const callFunction = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/reviews/${
+            params.id.split("_")[0]
+          }`,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const responsedata = await response.json();
+        setData(responsedata.response);
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+    if (wallet && params.id) callFunction();
+  }, [wallet, params.id.split("_")[0]]);
+  const setDataInput = (data) => {
+    setData((prev) => [...prev, data]);
+  };
 
   if (isLoading)
     return (
@@ -109,6 +139,18 @@ const Page = ({ params }) => {
               </div>
             </>
           )}
+          <div className={classes.reviewsInput}>
+            <div className={classes.headingReview}>Reviews</div>
+            <div className={classes.box_reviews}>
+              {data.map((people, index) => (
+                <ReviewsItem key={index} data={people} />
+              ))}
+            </div>
+            <ReviewsInput
+              setDataInput={setDataInput}
+              jobId={params.id.split("_")[0]}
+            />
+          </div>
         </div>
       </div>
     </>
