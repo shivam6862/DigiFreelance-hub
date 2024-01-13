@@ -14,3 +14,6 @@ frontend/config/config.json
 backend/node_modules
 backend/.env
 backend/package-lock.json
+
+image/Recording.mp4
+Recording.mp4
