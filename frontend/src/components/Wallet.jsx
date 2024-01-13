@@ -2,8 +2,10 @@
 import Link from "next/link";
 import { useListen } from "@/hooks/useListen";
 import { useMetamask } from "@/hooks/useMetamask";
+import { useNotification } from "@/hooks/useNotification";
 
 export default function Wallet() {
+  const { NotificationHandler } = useNotification();
   const {
     dispatch,
     state: { status, isMetamaskInstalled, wallet, balance },
@@ -41,11 +43,22 @@ export default function Wallet() {
       });
 
       listen();
+
+      NotificationHandler(
+        "DigiFreelance hub",
+        "You have successfully connected to your wallet",
+        "Success"
+      );
     }
   };
 
   const handleDisconnect = () => {
     dispatch({ type: "disconnect" });
+    NotificationHandler(
+      "DigiFreelance hub",
+      "You have successfully disconnected from your wallet",
+      "Info"
+    );
   };
 
   return (
