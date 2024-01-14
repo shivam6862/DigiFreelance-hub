@@ -19,6 +19,10 @@ Security is paramount on DigiFreelance-hub, employing Solidity smart contracts f
 **3. User-Friendly Interface:**
 DigiFreelance-hub prioritizes an intuitive and aesthetically pleasing interface for an enhanced user experience. The platform's design focuses on simplicity, enabling users to effortlessly navigate through job opportunities and manage their freelance activities. The visually appealing layout not only streamlines user interactions but also contributes to increased platform adoption. With efficiency at its core, DigiFreelance-hub's user-friendly interface makes freelance engagement seamless and enjoyable, ultimately fostering a thriving community.
 
+## Delpoy
+
+0xd4b0d46b1acad1f68c1b77231ac3cc7912e9fdb6
+
 ## Pages
 
 ### **Home:** Overview of the platform, featured jobs, and user statistics.
