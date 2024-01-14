@@ -21,7 +21,8 @@ DigiFreelance-hub prioritizes an intuitive and aesthetically pleasing interface 
 
 ## Delpoy
 
-0xd4b0d46b1acad1f68c1b77231ac3cc7912e9fdb6
+1.  mumbai : 0xd4b0d46b1acad1f68c1b77231ac3cc7912e9fdb6
+2.  sepolia : 0x4ed96a857fc902e79b7d9551034c3efa0a369b60
 
 ## Pages
 

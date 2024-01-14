@@ -1,4 +1,4 @@
-import ProfileTemplate from "@/components/profile/ProfileTemplate";
+import ProfileTemplate from "@/components/Profile/ProfileTemplate";
 import UserProfileInput from "@/components/profile/UserProfileInput";
 import Header from "@/components/Header";
 
