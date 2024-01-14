@@ -19,6 +19,7 @@ const UserProfileInput = () => {
     firstName: "John",
     lastName: "dev",
     description: "We enjoyed this hackthon!",
+    credits: 0,
   });
 
   const { firstName, lastName, description } = values;
@@ -74,6 +75,7 @@ const UserProfileInput = () => {
           firstName: resData.response[0].firstName,
           lastName: resData.response[0].lastName,
           description: resData.response[0].description,
+          credits: resData.response[0].credits,
         });
       }
     };
@@ -122,6 +124,16 @@ const UserProfileInput = () => {
               onChange={valueChangeHandler("description")}
               placeholder="Description"
               className={styles["user-input"]}
+            />
+          </div>
+        </div>
+        <div>
+          <div className={styles.col}>
+            <lable className={styles.label}>Credits Left : </lable>
+            <input
+              value={values.credits}
+              className={styles["user-input"]}
+              disabled
             />
           </div>
         </div>

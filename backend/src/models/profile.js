@@ -25,6 +25,11 @@ const profileSchema = new mongoose.Schema({
     required: true,
     default: Date.now,
   },
+  credits: {
+    type: Number,
+    required: true,
+    default: 100,
+  },
 });
 
 const profile = mongoose.model("profile", profileSchema);

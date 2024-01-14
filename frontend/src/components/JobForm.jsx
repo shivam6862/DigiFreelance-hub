@@ -1,8 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import classes from "@/styles/JobForm.module.css";
 import useCreateTask from "@/hooks/useCreateTask";
+import useChangeUserCredits from "@/hooks/useChangeUserCredits";
+import useGetUserProfile from "@/hooks/useGetUserProfile";
+import { useMetamask } from "@/hooks/useMetamask";
+import { useNotification } from "@/hooks/useNotification";
 
 const initialState = {
   title: "Selling Phone Website",
@@ -33,6 +37,16 @@ const options_minorTypeOfTask = [
 ];
 
 const JobForm = () => {
+  const CHARGE = 3;
+  const { changeUserCredits } = useChangeUserCredits();
+  const { getUserProfile } = useGetUserProfile();
+  const { NotificationHandler } = useNotification();
+  const {
+    dispatch,
+    state: { wallet },
+  } = useMetamask();
+  const [userProfile, setUserProfile] = useState({});
+  console.log(userProfile);
   const { handleCreateTask } = useCreateTask();
   const [formData, setFormData] = useState(initialState);
 
@@ -41,9 +55,27 @@ const JobForm = () => {
     setFormData(initialState);
     console.log(formData);
     try {
+      if (userProfile.credits < CHARGE) {
+        NotificationHandler(
+          "DigiFreelance hub",
+          `Credits is less than ${CHARGE} ETH. Please add more credits to your wallet.`,
+          "Error"
+        );
+        return;
+      }
       const response = await handleCreateTask(formData);
-      if (response) console.log("Task created successfully");
-      else console.log("Error during task creating");
+      if (response) {
+        console.log("Task created successfully");
+        const new_user_data = {
+          walletAddress: wallet,
+          firstName: userProfile.firstName,
+          lastName: userProfile.lastName,
+          description: userProfile.description,
+          credits: userProfile.credits - CHARGE,
+        };
+        const response1 = await changeUserCredits(new_user_data);
+        console.log(response1);
+      } else console.log("Error during task creating");
       console.log("Task created successfully");
     } catch (err) {
       console.log("Error during task creating : ", err.message);
@@ -55,6 +87,15 @@ const JobForm = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+
+  useEffect(() => {
+    const func = async () => {
+      const response = await getUserProfile(wallet);
+      console.log(response);
+      setUserProfile(response);
+    };
+    if (wallet) func();
+  }, [wallet]);
   return (
     <div className={classes.container}>
       <div className={classes.form_box}>

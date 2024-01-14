@@ -70,6 +70,10 @@
 .user-input:focus {
   border: 1px solid var(--stock);
 }
+.user-input:disabled {
+  background-color: var(--stock);
+  cursor: not-allowed;
+}
 .image-section ul {
   margin: 0;
   padding: 0;
