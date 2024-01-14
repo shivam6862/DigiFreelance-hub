@@ -9,6 +9,18 @@
   },
   "keywords": [],
   "author": "",
+  "builds": [
+    {
+      "src": "index.js",
+      "use": "@now/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "index.js"
+    }
+  ],
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
