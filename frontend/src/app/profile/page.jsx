@@ -1,5 +1,5 @@
 import ProfileTemplate from "@/components/Profile/ProfileTemplate";
-import UserProfileInput from "@/components/profile/UserProfileInput";
+import UserProfileInput from "@/components/Profile/UserProfileInput";
 import Header from "@/components/Header";
 
 const Profile = () => {
