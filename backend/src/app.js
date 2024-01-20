@@ -10,10 +10,7 @@ const app = express();
 
 app.use(
   cors({
-    origin:
-      "https://shivam-digifreelance-hub.vercel.app" ||
-      process.env.FRONTEND_URL ||
-      "*",
+    origin: "https://shivam-digifreelance-hub.vercel.app",
     credentials: true,
     optionsSuccessStatus: 200,
   })
@@ -27,9 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use((req, res, next) => {
   res.setHeader(
     "Access-Control-Allow-Origin",
-    "https://shivam-digifreelance-hub.vercel.app" ||
-      process.env.FRONTEND_URL ||
-      "*"
+    "https://shivam-digifreelance-hub.vercel.app"
   );
   res.setHeader(
     "Access-Control-Allow-Methods",
