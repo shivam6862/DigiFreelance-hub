@@ -4,17 +4,8 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config();
 const fileUpload = require("express-fileupload");
-const cors = require("cors");
 
 const app = express();
-
-app.use(
-  cors({
-    origin: "https://shivam-digifreelance-hub.vercel.app",
-    credentials: true,
-    optionsSuccessStatus: 200,
-  })
-);
 
 app.use(express.static(__dirname + "/uploads/"));
 app.use(fileUpload());
@@ -23,6 +14,10 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
   res.setHeader(
+    "Access-Control-Allow-Origin",
+    "https://shivam-digifreelance-hub.vercel.app"
+  );
+  res.setHeader(
     "Access-Control-Allow-Methods",
     "OPTIONS, GET, POST, PUT, PATCH, DELETE"
   );
@@ -30,6 +25,7 @@ app.use((req, res, next) => {
     "Access-Control-Allow-Headers",
     "Content-Type, Authorization,AuthToken"
   );
+  res.setHeader("Access-Control-Allow-Credentials", true);
   next();
 });
 
