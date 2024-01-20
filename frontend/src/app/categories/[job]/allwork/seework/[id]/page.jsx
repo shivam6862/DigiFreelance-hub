@@ -49,15 +49,23 @@ const Page = ({ params }) => {
 
   useEffect(() => {
     const getFunction = async () => {
-      const result = await handleGetTask(IMAGEPATH);
-      console.log(result);
-      setEachWorkitem(result);
-      const response = await handleGetAllrequestForTaskByTask(IMAGEPATH);
-      console.log(response);
-      setAllRequestForThisTask(response);
+      try {
+        const result = await handleGetTask(IMAGEPATH);
+        console.log(result);
+        setEachWorkitem(result);
+      } catch (err) {
+        console.log(err.message);
+      }
+      try {
+        const response = await handleGetAllrequestForTaskByTask(IMAGEPATH);
+        console.log(response);
+        setAllRequestForThisTask(response);
+      } catch (err) {
+        console.log(err.message);
+      }
     };
-    getFunction();
-  }, []);
+    if (wallet != null && IMAGEPATH != null) getFunction();
+  }, [wallet || IMAGEPATH]);
 
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -83,6 +91,7 @@ const Page = ({ params }) => {
     };
     if (wallet && params.id) callFunction();
   }, [wallet, params.id.split("_")[0]]);
+
   const setDataInput = (data) => {
     setData((prev) => [...prev, data]);
   };
@@ -91,6 +100,10 @@ const Page = ({ params }) => {
     try {
       const response = await handleRejectForTaskByCreator(IMAGEPATH, user);
       console.log(response);
+      setAllRequestForThisTask((prev) => {
+        const new_array = prev.filter((item) => item != user);
+        return new_array;
+      });
     } catch (err) {
       console.log(err.message);
     }
@@ -100,6 +113,10 @@ const Page = ({ params }) => {
     try {
       const response = await handleAcceptTaskForSolver(IMAGEPATH, user);
       console.log(response);
+      setAllRequestForThisTask((prev) => {
+        const new_array = prev.filter((item) => item != user);
+        return new_array;
+      });
     } catch (err) {
       console.log(err.message);
     }
@@ -174,6 +191,18 @@ const Page = ({ params }) => {
               {MINORWORK.replace(/-/g, " ")} -{IMAGEPATH}
             </h1>
             <h1>Loading...</h1>
+          </div>
+        </div>
+      </>
+    );
+
+  if (!wallet)
+    return (
+      <>
+        <Header />
+        <div className={classes.contaier}>
+          <div className={classes.connect_wallet}>
+            <h1>Please connect your wallet to see this page!</h1>
           </div>
         </div>
       </>

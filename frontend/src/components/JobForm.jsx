@@ -47,7 +47,7 @@ const JobForm = () => {
   } = useMetamask();
   const [userProfile, setUserProfile] = useState({});
   console.log(userProfile);
-  const { handleCreateTask } = useCreateTask();
+  const { handleCreateTask, isLoading } = useCreateTask();
   const [formData, setFormData] = useState(initialState);
 
   const handleSubmit = async (e) => {
@@ -187,7 +187,15 @@ const JobForm = () => {
             />
           </label>
 
-          <button type="submit">Submit</button>
+          <button type="submit" disabled={wallet == null}>
+            {isLoading ? (
+              <div className="spin-wrapper">
+                <div className="spin"></div>
+              </div>
+            ) : (
+              "Submit"
+            )}
+          </button>
         </form>
       </div>
     </div>

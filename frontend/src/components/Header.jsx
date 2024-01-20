@@ -72,6 +72,7 @@ const Header = () => {
               style={{
                 borderRadius: "50%",
               }}
+              alt="logo"
             />
           </Link>
         </div>

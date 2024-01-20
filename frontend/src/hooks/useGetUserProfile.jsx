@@ -28,7 +28,13 @@ const useGetUserProfile = () => {
     } catch (err) {
       console.log(err);
       NotificationHandler("DigiFreelance hub", "Something went wrong", "Error");
-      return "false";
+      return {
+        firstName: "Unknown",
+        lastName: "Unknown",
+        description: "Unknown",
+        credits: 0,
+        walletAddress: new_wallet,
+      };
     }
   };
   return { getUserProfile };

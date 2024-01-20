@@ -1,6 +1,6 @@
 {
   "contractAddress": {
-    "localhost": "0xd4b0d46b1acad1f68c1b77231ac3cc7912e9fdb6"
+    "localhost": "0x84322cC07D2014D958A19bA1b6E93788FC9F9608"
   },
   "Task": [
     {
@@ -787,9 +787,9 @@
       "name": "getAllrequestForTaskByTask",
       "outputs": [
         {
-          "internalType": "string",
+          "internalType": "address[10]",
           "name": "",
-          "type": "string"
+          "type": "address[10]"
         }
       ],
       "stateMutability": "view",

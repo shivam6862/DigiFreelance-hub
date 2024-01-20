@@ -417,7 +417,10 @@ class ContractInteractions {
 
   async getAllrequestForTaskByTask(_id) {
     try {
-      const task = await this.TaskHubcontract.getAllrequestForTaskByTask(_id);
+      const _id_to_number = Number(_id);
+      const task = await this.TaskHubcontract.getAllrequestForTaskByTask(
+        _id_to_number
+      );
       return task;
     } catch (err) {
       console.log("Error during calling all Tasks : ", err.message);

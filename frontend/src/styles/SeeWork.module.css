@@ -180,11 +180,29 @@
 .box_submission_voting > p:nth-child(3) {
   font-size: var(--ft-450);
 }
+.connect_wallet {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding: 1rem;
+  box-shadow: 0 0 15px rgba(129, 129, 129, 0.1);
+  padding: 1rem;
+  min-height: 60vh;
+  color: var(--primary-color);
+  font-size: 1.2rem;
+}
 @media screen and (max-width: 1000px) {
   .request_container {
     width: -webkit-fill-available;
   }
   .user_submission {
     width: -webkit-fill-available;
+  }
+}
+@media screen and (max-width: 768px) {
+  .connect_wallet {
+    font-size: 0.8rem;
   }
 }

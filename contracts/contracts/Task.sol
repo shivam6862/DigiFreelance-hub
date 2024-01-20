@@ -71,7 +71,7 @@ contract Task {
     }
 
     function requestForTaskToCreator(address _requester) external {
-        require(tx.origin == creator, "Only creator can request for a task");
+        require(tx.origin != creator, "Creator can not request for a task");
         require(status == Status.Created, "Task must be in Created status");
         requestForTask.push(_requester);
     }

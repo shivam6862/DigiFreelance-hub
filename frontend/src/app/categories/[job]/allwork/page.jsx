@@ -69,7 +69,7 @@ const Page = ({ params }) => {
         <h1>All available work</h1>
         <div className={classes.box}>
           {allTask.map((imagePath, index) => (
-            <div className={classes.hover_effect}>
+            <div className={classes.hover_effect} key={index}>
               <div className={classes.imageBox} key={index}>
                 <Link
                   href={`/categories/${PATHNAME}/allwork/seework/${imagePath.address}_${imagePath.index}`}

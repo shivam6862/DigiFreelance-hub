@@ -54,6 +54,12 @@
   border-radius: 4px;
   cursor: pointer;
 }
+
+.container_form > button:disabled {
+  background-color: var(--stock);
+  cursor: not-allowed;
+}
+
 .container_form > button:hover {
   background-color: var(--btn-active-color);
 }

@@ -69,7 +69,22 @@ const useGetTask = () => {
         "Error during task creating",
         "Error"
       );
-      throw err;
+      setIsLoading(false);
+      return {
+        id: 1,
+        title: "",
+        description: "",
+        reward: 0,
+        timeToComplete: 0,
+        majorTypeOfTask: "",
+        minorTypeOfTask: "",
+        techStack: "",
+        creator: "",
+        solver: "",
+        sender: "",
+        createdAt: 0,
+        isUserRequestForTask: false,
+      };
     }
   };
 

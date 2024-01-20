@@ -28,7 +28,7 @@ export default function ProfileIconUpload({ setFile }) {
         <Image
           src={icon}
           width={150}
-          alt=""
+          alt="profile icon"
           height={150}
           style={{ borderRadius: "100px" }}
         />

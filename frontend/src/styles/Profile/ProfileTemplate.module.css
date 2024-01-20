@@ -3,7 +3,7 @@
 }
 .bg-container {
   height: 400px;
-  background: url("/profile-background-image.jpg") top;
+  background: url("/profile-background-image.jpg") no-repeat top center/cover;
   z-index: -1;
   display: flex;
   justify-content: center;

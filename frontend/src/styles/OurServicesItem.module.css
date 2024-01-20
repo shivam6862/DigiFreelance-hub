@@ -5,6 +5,10 @@
   justify-content: space-around;
   margin-bottom: 1rem;
   width: -webkit-fill-available;
+  gap: 2rem;
+}
+.servicesItem:nth-child(even) {
+  flex-direction: row-reverse;
 }
 .left {
   display: flex;
@@ -87,6 +91,10 @@
 }
 @media screen and (max-width: 900px) {
   .servicesItem {
+    flex-direction: column;
+    gap: 0rem;
+  }
+  .servicesItem:nth-child(even) {
     flex-direction: column;
   }
 }

@@ -141,8 +141,10 @@ const EachWorkitem = ({ workitem, projectAddress }) => {
             </div>
             <div className={classes.techStack}>
               <h1>Tech Stack : </h1>
-              {techStackArray.map((tech) => (
-                <div className={classes.techStack_item}>{tech}</div>
+              {techStackArray.map((tech, index) => (
+                <div className={classes.techStack_item} key={index}>
+                  {tech}
+                </div>
               ))}
             </div>
           </div>

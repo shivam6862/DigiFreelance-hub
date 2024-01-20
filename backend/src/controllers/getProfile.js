@@ -1,9 +1,9 @@
 const Profile = require("../models/profile");
 
-module.exports = getProfile = async ({ projectAddress }) => {
+module.exports = getProfile = async (walletAddress) => {
   try {
     const responseProfile = await Profile.find({
-      projectAddress: projectAddress,
+      walletAddress: walletAddress,
     });
     return responseProfile;
   } catch (err) {

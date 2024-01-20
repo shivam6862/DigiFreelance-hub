@@ -30,8 +30,10 @@ const useGetAllrequestForTaskByTask = () => {
       console.log(tx);
       setIsLoading(false);
       console.log("all requested user :", tx);
-      var response = tx.split(",");
-      response = response.filter((item) => item != "");
+      var response = tx;
+      response = response.filter(
+        (item) => item != "0x0000000000000000000000000000000000000000"
+      );
       console.log("all requested user :", response);
       return response;
     } catch (err) {
@@ -41,7 +43,8 @@ const useGetAllrequestForTaskByTask = () => {
         "Error during getting all requestForTask by task",
         "Error"
       );
-      throw err;
+      setIsLoading(false);
+      return [];
     }
   };
 

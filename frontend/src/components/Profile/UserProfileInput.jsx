@@ -57,32 +57,42 @@ const UserProfileInput = () => {
 
   useEffect(() => {
     const getProfile = async () => {
-      const headers = new Headers({
-        "Content-Type": "application/json",
-      });
+      try {
+        const headers = new Headers({
+          "Content-Type": "application/json",
+        });
 
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/${new_wallet}`,
-        {
-          method: "get",
-          headers: headers,
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/${new_wallet}`,
+          {
+            method: "get",
+            headers: headers,
+          }
+        );
+        const resData = await response.json();
+        console.log(resData);
+        if (resData.message == "User Found!") {
+          setValues({
+            firstName: resData.response[0].firstName,
+            lastName: resData.response[0].lastName,
+            description: resData.response[0].description,
+            credits: resData.response[0].credits,
+          });
         }
-      );
-      const resData = await response.json();
-      console.log(resData);
-      if (resData.message == "User Found!") {
+      } catch (err) {
+        console.log(err);
         setValues({
-          firstName: resData.response[0].firstName,
-          lastName: resData.response[0].lastName,
-          description: resData.response[0].description,
-          credits: resData.response[0].credits,
+          firstName: "",
+          lastName: "",
+          description: "",
+          credits: 0,
         });
       }
     };
     setTimeout(() => {
-      getProfile();
+      if (wallet) getProfile();
     }, 3000);
-  }, []);
+  }, [wallet]);
 
   console.log(file);
   return (

@@ -429,20 +429,15 @@ contract TaskHub {
     }
 
     function getAllrequestForTaskByTask(
-        uint _id
-    ) external view returns (string memory) {
+        uint256 _id
+    ) external view returns (address[10] memory) {
         Task task = tasks[_id];
-        string memory allUserAddress;
-        for (uint i = 0; i < task.getRequestForTaskLength(); i++) {
-            allUserAddress = string(
-                abi.encodePacked(
-                    allUserAddress,
-                    task.getRequestForTaskOfIndex(i),
-                    ","
-                )
-            );
+        address[10] memory all_address;
+        for (uint256 i = 0; i < task.getRequestForTaskLength(); i++) {
+            address userAddress = task.getRequestForTaskOfIndex(i);
+            all_address[i] = userAddress;
         }
-        return allUserAddress;
+        return all_address;
     }
 
     function getAllTaskByNinorTypeOfTask(
