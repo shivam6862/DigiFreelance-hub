@@ -23,10 +23,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
   res.setHeader(
-    "Access-Control-Allow-Origin",
-    "https://shivam-digifreelance-hub.vercel.app"
-  );
-  res.setHeader(
     "Access-Control-Allow-Methods",
     "OPTIONS, GET, POST, PUT, PATCH, DELETE"
   );
